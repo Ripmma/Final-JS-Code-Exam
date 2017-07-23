@@ -5,13 +5,45 @@
 
 
 angular.module("examApp.controllers", [])
+
     .controller("mainCtrl", function($scope){})
-    .controller("getCtrl", function(){
 
+    .controller("getCtrl", function($scope, $http){
+    	$http.get("http://localhost:8080/api/data").then(function(response){
+    		$scope.post = response.data;
+    	})
     })
-    .controller("postCtrl", function(){
 
+    .controller("postCtrl", function($scope, $http, $window){
+    	$http.post('/api/post', $scope.post, { headers: { 'Content-Type': 'application/json' } })
+    	.then(function(response){
+    		$window.location.href = "/"
+    			$scope.msg = "Gangstalicious!";
+    		console.log("dope")
+    	}, function(response){
+    		$scope.msg = "Oh no!";
+    		console.log("Crap...")
+    	})
     })
+    
     .controller("updateCtrl", function(){
+        var p = $location.search().p
 
+        $scope.deletePost = function(){
+            $http.delete('api/delete/:id', {params :{id: p}})
+            .then(function(response){
+                console.log("Goodbye to whatever you just deleted...")
+                $window.location.href='/'
+            })
+        }
+
+        $scope.editPost = function(){
+            $http.put('/api/update/:id', $scope.post, {params :{id: p}})
+            .then(function(response){
+                $window.location.href='/'
+                console.log("Updated!")
+            }), function(response){
+                console.log("K... guess not?")
+            }
+        }
     })

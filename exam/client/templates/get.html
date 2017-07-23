@@ -1,3 +1,16 @@
 <h1> Hello get</h1>
 
 <h2> I should be showing the data in the form of a table</h2>
+
+<div ng-controller='getCtrl'>
+  <table class='tg'>
+    <tr>
+      <th ng-repeat="posts in post " class="tg-yw4l" ><a href="#!/update?p={{posts._id}}">{{posts.name}}</a></th>
+		</tr>
+		<tr>
+			<td ng-repeat="posts in post" class="tg">{{posts.age}}</td>
+		</tr>
+		<tr>
+			<td ng-repeat="posts in post" class="tg">{{posts.occupation}}</td>
+		</tr>
+	</table>
